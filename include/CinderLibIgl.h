@@ -11,6 +11,11 @@
 namespace cinder{
   typedef std::shared_ptr<class IglMesh>		IglMeshRef;
   class IglMesh : public TriMesh{
-    igl::viewer::ViewerData test;
+  public:
+    IglMesh(){};
+    IglMesh(Eigen::MatrixXd V, Eigen::MatrixXi F);
+    ~IglMesh(){};
+  private:
+    igl::viewer::ViewerData data;
   };
 }
