@@ -12,6 +12,8 @@ IglMesh::IglMesh() {
 }
 
 IglMesh::IglMesh(const std::string str) {
+  Eigen::MatrixXd V;
+  Eigen::MatrixXi F;
   igl::read_triangle_mesh(str, V, F);
   setMesh(V, F);
 }
@@ -19,7 +21,7 @@ IglMesh::IglMesh(const std::string str) {
 IglMesh::~IglMesh() {}
 
 void IglMesh::setMesh(Eigen::MatrixXd V, Eigen::MatrixXi F) {
-  data.seti_mesh(V, F);
+  data.set_mesh(V, F);
   V_vbo = (data.V.transpose()).cast<float>();
   F_vbo = (data.F.transpose()).cast<unsigned>();
   V_normals_vbo = (data.V_normals.transpose()).cast<float>();

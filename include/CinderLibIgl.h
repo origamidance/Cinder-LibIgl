@@ -21,10 +21,11 @@ class IglMesh : public TriMesh {
   };
   virtual ~IglMesh();
   void setMesh(Eigen::MatrixXd V, Eigen::MatrixXi F);
-  void setV(Eigen::MatrixXd V){data.set_vertices(V)};
-  Eigen::MatrixXd* getV(){return &data.V};
-  Eigen::MatrixXd* getF(){return &data.F};
-  void setColor(Eigen::MatrixXd C) { return &data.set_colors(C) }
+  void setV(Eigen::MatrixXd V) { data.set_vertices(V); };
+  Eigen::MatrixXd* getV() { return &data.V; };
+  Eigen::MatrixXi* getF() { return &data.F; };
+  void setColor(Eigen::MatrixXd C) { data.set_colors(C); }
+
  public:
   igl::viewer::ViewerData data;
 
