@@ -1,6 +1,7 @@
 if(NOT TARGET Cinder-LibIgl)
   get_filename_component( CINDER-LIBIGL_PATH "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
-	get_filename_component( CINDER_PATH "${CMAKE_CURRENT_LIST_DIR}/../../../.." ABSOLUTE )
+	get_filename_component( CINDER_PATH "${CMAKE_CURRENT_LIST_DIR}/../../../../Cinder" ABSOLUTE )
+  message("CINDER PATH= ${CINDER_PATH}")
   list( APPEND CINDER-LIBIGL_SOURCES
     ${CINDER-LIBIGL_PATH}/src/CinderLibIgl.cpp
     # ${CINDER-LIBIGL_PATH}/lib/libigl/include/igl/viewer/ViewerData.h
@@ -17,5 +18,5 @@ if(NOT TARGET Cinder-LibIgl)
 		  "$ENV{CINDER_PATH}/${CINDER_LIB_DIRECTORY}" )
 	endif()
   target_link_libraries(Cinder-LibIgl PRIVATE cinder)
-  include_directories(${CINDER-LIBIGL_PATH}/lib/libigl/include)
+  # include_directories(${CINDER-LIBIGL_PATH}/lib/libigl/include)
 endif()
