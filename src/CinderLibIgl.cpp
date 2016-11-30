@@ -14,13 +14,32 @@ IglMesh::IglMesh() {
 IglMesh::IglMesh(const std::string str) {
   Eigen::MatrixXd V;
   Eigen::MatrixXi F;
-  igl::read_triangle_mesh(str, V, F);
-  setMesh(V, F);
+  if (igl::read_triangle_mesh(str, V, F)) {
+    setMesh(V, F);
+  } else {
+    cout << "error reading mesh!"
+         << "\n";
+  }
 }
 
 IglMesh::~IglMesh() {}
 
+bool IglMesh::loadMesh(const std::string str) {
+  Eigen::MatrixXd V;
+  Eigen::MatrixXi F;
+  if (igl::read_triangle_mesh(str, V, F)) {
+    setMesh(V, F);
+    return true;
+  } else {
+    cout << "error reading mesh!"
+         << "\n";
+    return false;
+  }
+}
+
 void IglMesh::setMesh(Eigen::MatrixXd V, Eigen::MatrixXi F) {
+  this->clear();
+  data.clear();
   data.set_mesh(V, F);
   V_vbo = (data.V.transpose()).cast<float>();
   F_vbo = (data.F.transpose()).cast<unsigned>();

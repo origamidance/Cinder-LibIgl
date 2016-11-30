@@ -20,6 +20,7 @@ class IglMesh : public TriMesh {
     setMesh(V, F);
   };
   virtual ~IglMesh();
+  bool loadMesh(const std::string str);
   void setMesh(Eigen::MatrixXd V, Eigen::MatrixXi F);
   void setV(Eigen::MatrixXd V) { data.set_vertices(V); };
   Eigen::MatrixXd* getV() { return &data.V; };
