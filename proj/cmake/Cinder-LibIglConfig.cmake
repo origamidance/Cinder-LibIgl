@@ -9,6 +9,7 @@ if(NOT TARGET Cinder-LibIgl)
   add_library(Cinder-LibIgl ${CINDER-LIBIGL_SOURCES})
   target_include_directories( Cinder-LibIgl PUBLIC
     "${CINDER-LIBIGL_PATH}/include"
+    "${CINDER-LIBIGL_PATH}/lib/libigl/external/embree/include"
     "${CINDER-LIBIGL_PATH}/lib/libigl/include")
 	target_include_directories( Cinder-LibIgl SYSTEM BEFORE PUBLIC "${CINDER_PATH}/include" )
 	if( NOT TARGET cinder )

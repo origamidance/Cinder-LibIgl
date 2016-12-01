@@ -39,6 +39,7 @@ bool IglMesh::loadMesh(const std::string str) {
 
 void IglMesh::setMesh(Eigen::MatrixXd V, Eigen::MatrixXi F) {
   this->clear();
+  aabbTree.init(V,F);
   data.clear();
   data.set_mesh(V, F);
   V_vbo = (data.V.transpose()).cast<float>();

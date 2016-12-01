@@ -8,6 +8,7 @@
 #include "cinder/TriMesh.h"
 #include <igl/igl_inline.h>
 #include <igl/viewer/ViewerData.h>
+#include <igl/AABB.h>
 
 namespace cinder {
 typedef std::shared_ptr<class IglMesh> IglMeshRef;
@@ -23,14 +24,19 @@ class IglMesh : public TriMesh {
   bool loadMesh(const std::string str);
   void setMesh(Eigen::MatrixXd V, Eigen::MatrixXi F);
   void setV(Eigen::MatrixXd V) { data.set_vertices(V); };
-  Eigen::MatrixXd* getV() { return &data.V; };
-  Eigen::MatrixXi* getF() { return &data.F; };
-  void setColor(Eigen::MatrixXd C) { data.set_colors(C); }
+  Eigen::MatrixXd getV() { return data.V; };
+  Eigen::MatrixXi getF() { return data.F; };
+  Eigen::MatrixXd* getVRef() { return &data.V; };
+  Eigen::MatrixXi* getFRef() { return &data.F; };
+  void setColor(Eigen::MatrixXd C) { data.set_colors(C); };
+  igl::AABB<Eigen::MatrixXd, 3> getAABBTree() { return aabbTree; };
 
  public:
   igl::viewer::ViewerData data;
 
  private:
+  igl::AABB<Eigen::MatrixXd, 3> aabbTree;
+
   TriMesh::Format fmt;
 
   Eigen::MatrixXf V_vbo;
