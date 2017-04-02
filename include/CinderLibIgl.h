@@ -13,6 +13,7 @@
 namespace cinder {
 typedef std::shared_ptr<class IglMesh> IglMeshRef;
 class IglMesh : public TriMesh {
+  using TriMesh::TriMesh;
  public:
   IglMesh();
   IglMesh(const std::string str);
