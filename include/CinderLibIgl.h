@@ -8,6 +8,9 @@
 #include "cinder/TriMesh.h"
 #include <igl/igl_inline.h>
 #include <igl/viewer/ViewerData.h>
+#include <igl/per_vertex_normals.h>
+#include <igl/per_face_normals.h>
+#include <igl/per_corner_normals.h>
 #include <igl/AABB.h>
 
 namespace cinder {
@@ -24,6 +27,7 @@ class IglMesh : public TriMesh {
   virtual ~IglMesh();
   bool loadMesh(const std::string str);
   void setMesh(Eigen::MatrixXd V, Eigen::MatrixXi F);
+  void tetrahedralize();
   void setV(Eigen::MatrixXd V) { data.set_vertices(V); };
   Eigen::MatrixXd getV() { return data.V; };
   Eigen::MatrixXi getF() { return data.F; };
@@ -35,11 +39,21 @@ class IglMesh : public TriMesh {
  public:
   igl::viewer::ViewerData data;
 
+  Eigen::MatrixXd mTV;
+  Eigen::MatrixXi mTT;
+  Eigen::MatrixXi mTF;
+  Eigen::MatrixXd mV;
+  Eigen::MatrixXi mF;
+  Eigen::MatrixXi mE;
+
  private:
   igl::AABB<Eigen::MatrixXd, 3> aabbTree;
 
   TriMesh::Format fmt;
 
+  Eigen::MatrixXd N_vertices;
+  Eigen::MatrixXd N_faces;
+  Eigen::MatrixXd N_corners;
   Eigen::MatrixXf V_vbo;
   Eigen::MatrixXf V_normals_vbo;
   Eigen::MatrixXf V_ambient_vbo;
