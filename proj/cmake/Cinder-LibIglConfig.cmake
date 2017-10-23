@@ -15,11 +15,12 @@ if(NOT TARGET Cinder-LibIgl)
 
   list( APPEND CINDER-LIBIGL_SOURCES
     ${CINDER-LIBIGL_PATH}/src/CinderLibIgl.cpp
-    # ${CINDER-LIBIGL_PATH}/lib/libigl/include/igl/viewer/ViewerData.h
     )
 if(LIBIGL_WITH_TETGEN)
   set(TETGEN_DIR "${LIBIGL_EXTERNAL}/tetgen")
-  add_subdirectory("${TETGEN_DIR}" "tetgen")
+  # add_subdirectory("${TETGEN_DIR}" "tetgen")
+  add_library(tetgen ${TETGEN_DIR}/tetgen.cxx ${TETGEN_DIR}/predicates.cxx)
+  target_compile_definitions(tetgen PRIVATE -DTETLIBRARY)
   list(APPEND LIBIGL_INCLUDE_DIRS ${TETGEN_DIR})
   list(APPEND LIBIGL_TETGEN_EXTRA_LIBRARIES "tetgen")
   list(APPEND LIBIGL_EXTRA_LIBRARIES ${LIBIGL_TETGEN_EXTRA_LIBRARIES})
