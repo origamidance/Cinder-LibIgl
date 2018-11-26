@@ -11,8 +11,8 @@ using namespace ci::app;
 
 namespace cinder {
 IglMesh::IglMesh() {
-  // fmt = TriMesh::Format().positions().normals();
-  // initFromFormat(fmt);
+  fmt = TriMesh::Format().positions().normals();
+  initFromFormat(fmt);
 }
 
 IglMesh::IglMesh(const std::string str) {

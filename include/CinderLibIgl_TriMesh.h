@@ -5,8 +5,7 @@
 
 #pragma once
 
-/* #include "cinder/TriMesh.h" */
-#include "cinder/gl/VboMesh.h"
+#include "cinder/TriMesh.h"
 #include "cinder/Color.h"
 #include <igl/igl_inline.h>
 #include <igl/viewer/ViewerData.h>
@@ -17,8 +16,8 @@
 
 namespace cinder {
 typedef std::shared_ptr<class IglMesh> IglMeshRef;
-class IglMesh : public VboMesh{
-  using VboMesh::VboMesh;
+class IglMesh : public TriMesh {
+  using TriMesh::TriMesh;
  public:
   IglMesh();
   IglMesh(const std::string str);
@@ -31,15 +30,16 @@ class IglMesh : public VboMesh{
   void setMesh(Eigen::MatrixXd V, Eigen::MatrixXi F,Eigen::MatrixXd C=Eigen::MatrixXd());
   void tetrahedralize();
   void setV(Eigen::MatrixXd V);
-  Eigen::MatrixXd getV() { return mV; };
-  Eigen::MatrixXi getF() { return mF; };
-  Eigen::MatrixXd* getVRef() { return &mV; };
-  Eigen::MatrixXi* getFRef() { return &mF; };
+  Eigen::MatrixXd getV() { return data.V; };
+  Eigen::MatrixXi getF() { return data.F; };
+  Eigen::MatrixXd* getVRef() { return &data.V; };
+  Eigen::MatrixXi* getFRef() { return &data.F; };
   void setColor(Eigen::MatrixXd C);
   igl::AABB<Eigen::MatrixXd, 3> getAABBTree() { return aabbTree; };
 
  public:
-  std::vector<gl::VboMesh::Layout()>
+  igl::viewer::ViewerData data;
+
   Eigen::MatrixXd mTV;
   Eigen::MatrixXi mTT;
   Eigen::MatrixXi mTF;
@@ -51,7 +51,7 @@ class IglMesh : public VboMesh{
  private:
   igl::AABB<Eigen::MatrixXd, 3> aabbTree;
 
-  /* TriMesh::Format fmt; */
+  TriMesh::Format fmt;
 
   Eigen::MatrixXd N_vertices;
   Eigen::MatrixXd N_faces;
@@ -67,9 +67,9 @@ class IglMesh : public VboMesh{
   /* Eigen::MatrixXf points_V_vbo; */
   /* Eigen::MatrixXf points_V_colors_vbo; */
 
-  /* int tex_u; */
-  /* int tex_v; */
-  /* Eigen::Matrix<char, Eigen::Dynamic, 1> tex; */
+  int tex_u;
+  int tex_v;
+  Eigen::Matrix<char, Eigen::Dynamic, 1> tex;
 
   /* Eigen::Matrix<unsigned, Eigen::Dynamic, Eigen::Dynamic> F_vbo; */
   /* Eigen::Matrix<unsigned, Eigen::Dynamic, Eigen::Dynamic> lines_F_vbo; */
