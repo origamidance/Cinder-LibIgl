@@ -1,7 +1,7 @@
 if(NOT TARGET Cinder-LibIgl)
   option(LIBIGL_WITH_TETGEN           "Use Tetgen"         ON)
   get_filename_component( CINDER-LIBIGL_PATH "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
-	get_filename_component( CINDER_PATH "${CMAKE_CURRENT_LIST_DIR}/../../../../Cinder" ABSOLUTE )
+	# get_filename_component( CINDER_PATH "${CMAKE_CURRENT_LIST_DIR}/../../../../Cinder" ABSOLUTE )
   message("CINDER PATH= ${CINDER_PATH}")
   set(LIBIGL_ROOT "${CINDER-LIBIGL_PATH}/lib/libigl")
   set(LIBIGL_SOURCE_DIR "${LIBIGL_ROOT}/include")
@@ -30,7 +30,7 @@ endif()
     "${CINDER-LIBIGL_PATH}/include"
     "${CINDER-LIBIGL_PATH}/lib/libigl/external/embree/include"
     "${LIBIGL_INCLUDE_DIRS}")
-	target_include_directories( Cinder-LibIgl SYSTEM BEFORE PUBLIC "${CINDER_PATH}/include" )
+	# target_include_directories( Cinder-LibIgl SYSTEM BEFORE PUBLIC "${CINDER_PATH}/include" )
 	if( NOT TARGET cinder )
 		include( "${CINDER_PATH}/proj/cmake/configure.cmake" )
 		find_package( cinder REQUIRED PATHS

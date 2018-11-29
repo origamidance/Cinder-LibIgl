@@ -11,13 +11,21 @@ using namespace ci::app;
 
 namespace cinder {
 IglMesh::IglMesh() {
-  // fmt = TriMesh::Format().positions().normals();
-  // initFromFormat(fmt);
+  fmt = TriMesh::Format().positions().normals();
+  initFromFormat(fmt);
+  bufferLayout={
+                gl::VboMesh::Layout().usage( GL_DYNAMIC_DRAW ).attrib( geom::Attrib::POSITION, 3 ),
+                gl::VboMesh::Layout().usage(GL_DYNAMIC_DRAW).attrib(geom::Attrib::COLOR,3)
+  };
 }
 
 IglMesh::IglMesh(const std::string str) {
   fmt = TriMesh::Format().positions().normals();
   initFromFormat(fmt);
+  bufferLayout={
+                gl::VboMesh::Layout().usage( GL_DYNAMIC_DRAW ).attrib( geom::Attrib::POSITION, 3 ),
+                gl::VboMesh::Layout().usage(GL_DYNAMIC_DRAW).attrib(geom::Attrib::COLOR,3)
+  };
   Eigen::MatrixXd V;
   Eigen::MatrixXi F;
   if (igl::read_triangle_mesh(str, V, F)) {
@@ -88,7 +96,11 @@ bool IglMesh::loadMesh(const std::string str) {
   // data.set_normals(N_corners);
   Eigen::MatrixXf V_vbo= V.transpose().cast<float>();
   Eigen::Matrix<unsigned, Eigen::Dynamic, Eigen::Dynamic> F_vbo= F.transpose().cast<unsigned>();
-  Eigen::MatrixXf C_vbo= C.transpose().cast<float>();
+  Eigen::MatrixXf C_vbo;
+  if(!C.size())
+    C_vbo=Eigen::MatrixXf::Ones(V_vbo.rows(),V_vbo.cols());
+  else
+    C_vbo= C.transpose().cast<float>();
   // Eigen::MatrixXf C_vbo= Eigen::MatrixXf::Zero(V.cols(),V.rows())+Eigen::MatrixXf::Ones(V.cols(),V.rows());
   // Eigen::MatrixXf C_vbo= Eigen::MatrixXf::Random(V.cols(),V.rows())+Eigen::MatrixXf::Ones(V.cols(),V.rows());
   Eigen::MatrixXf V_normals_vbo= N_vertices.transpose().cast<float>();
@@ -104,6 +116,14 @@ bool IglMesh::loadMesh(const std::string str) {
   // this->mColors=std::vector<float>(C_vbo.data(),C_vbo.data()+C_vbo.size());
   this->appendNormals((glm::vec3*)Eigen::MatrixXf(N_vertices.transpose().cast<float>()).data(), N_vertices.rows());
   // this->appendColors((Color*)(Eigen::MatrixXf(mC.transpose().cast<float>())).data(),mC.rows());
+  // mVboMeshRef=gl::VboMesh::create(*this,bufferLayout);
+
+  mVboMeshRef=gl::VboMesh::create(V.rows(),GL_TRIANGLES,bufferLayout,F.size(),GL_UNSIGNED_INT);
+  mVboMeshRef->bufferAttrib(geom::Attrib::POSITION,V_vbo.size()*sizeof(float),(float*)V_vbo.data());
+  mVboMeshRef->bufferAttrib(geom::Attrib::COLOR,C_vbo.size()*sizeof(float),(float*)C_vbo.data());
+  mVboMeshRef->bufferIndices(F_vbo.size()*sizeof(uint),(uint*)(F_vbo.data()));
+  // std::cout<<"\nVertices=\n"<<V;
+  // std::cout<<"\nFaces=\n"<<F;
 }
 
   void IglMesh::tetrahedralize() {
