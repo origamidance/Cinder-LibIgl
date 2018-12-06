@@ -9,7 +9,6 @@
 #include "cinder/TriMesh.h"
 #include "cinder/Color.h"
 #include <igl/igl_inline.h>
-#include <igl/viewer/ViewerData.h>
 #include <igl/per_vertex_normals.h>
 #include <igl/per_face_normals.h>
 #include <igl/per_corner_normals.h>
@@ -29,17 +28,10 @@ class IglMesh : public TriMesh {
   virtual ~IglMesh();
   bool loadMesh(const std::string str);
   void setMesh(Eigen::MatrixXd V, Eigen::MatrixXi F,Eigen::MatrixXd C=Eigen::MatrixXd());
-  void tetrahedralize();
-  void setV(Eigen::MatrixXd V);
-  Eigen::MatrixXd getV() { return data.V; };
-  Eigen::MatrixXi getF() { return data.F; };
-  Eigen::MatrixXd* getVRef() { return &data.V; };
-  Eigen::MatrixXi* getFRef() { return &data.F; };
   void setColor(Eigen::MatrixXd C);
   igl::AABB<Eigen::MatrixXd, 3> getAABBTree() { return aabbTree; };
 
  public:
-  igl::viewer::ViewerData data;
   cinder::gl::VboMeshRef mVboMeshRef;
   std::vector<gl::VboMesh::Layout> bufferLayout;
 

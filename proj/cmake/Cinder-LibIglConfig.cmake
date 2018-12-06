@@ -1,5 +1,5 @@
 if(NOT TARGET Cinder-LibIgl)
-  option(LIBIGL_WITH_TETGEN           "Use Tetgen"         ON)
+  option(LIBIGL_WITH_TETGEN           "Use Tetgen"         OFF)
   get_filename_component( CINDER-LIBIGL_PATH "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
 	# get_filename_component( CINDER_PATH "${CMAKE_CURRENT_LIST_DIR}/../../../../Cinder" ABSOLUTE )
   message("CINDER PATH= ${CINDER_PATH}")
@@ -15,6 +15,7 @@ if(NOT TARGET Cinder-LibIgl)
 
   list( APPEND CINDER-LIBIGL_SOURCES
     ${CINDER-LIBIGL_PATH}/src/CinderLibIgl.cpp
+    ${CINDER-LIBIGL_PATH}/include/CinderLibIgl.h
     )
 if(LIBIGL_WITH_TETGEN)
   set(TETGEN_DIR "${LIBIGL_EXTERNAL}/tetgen")
